@@ -49,6 +49,7 @@ def login():
         email = form.email.data
         password = form.password.data
         if email in REGISTERED_USERS and REGISTERED_USERS[email] ['password'] == password:
+            flash(f'Login Successful, {REGISTERED_USERS[email]["name"]}!', 'success')
             return redirect(url_for('pokedex'))
         else:
             return 'Invaild email or passord'

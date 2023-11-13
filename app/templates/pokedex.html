@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}PokeDex{% endblock %}
+{% block styles %} 
+   <link rel="stylesheet" href="../static/styles/login.css"> 
+{% endblock %} 
+
+{% block content %}
+    {% include './includes/nav.html' %}
+    <img class="mx-auto d-block" src="data:image/jpeg;base64,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">
+
+<form method="POST" class="w-25 mx-auto shadow p-3 mb-5 mt-5 bg-body-tertiary rounded">
+    <div class="mb-3">
+        <label for="yearLabel" class="form-label text-center">Enter Pokemon Name or Number</label>
+        <input type="text" class="form-control" id="yearLabel" name="year">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Search</button>
+ </form>
+ <table class="table mx-auto">
+    <thead>
+      <tr>
+        <th scope="col">Driver</th>
+        <th scope="col">Teams </th>
+        <th scope="col">Wins</th>
+        <th scope="col">DOB</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for driver in all_drivers %}
+        <tr>
+          <th scope="row">{{ driver['first_name'] + " " + driver['last_name'] }}</th>
+          <td>{{ driver['team']}}</td>
+          <td>{{driver['wins']}}</td>
+          <td>{{driver['DOB']}}</td>
+        </tr>
+      {% endfor %}
+     
+   
+    </tbody>
+  </table>
+{% endblock %}

@@ -2,6 +2,7 @@ from flask import request, render_template, redirect, url_for, flash
 import requests
 from app import app
 from app.forms import LoginForm, SignupForm, Get_Poke_Info
+from app.models import db, User
 # Home
 
 
@@ -9,35 +10,37 @@ from app.forms import LoginForm, SignupForm, Get_Poke_Info
 #
 #
 def get_poke_info(data):
-    baseExp = data.get('base_experience')
-    spriteURL = data.get('sprites', {}).get('front_default')
-    spriteShinyURL = data.get('sprites', {}).get('front_shiny')
-    baseStats = {stat.get('stat', {}).get('name', '').upper() + ':': stat.get('base_stat') for stat in data.get('stats', [])}
-    pokemonType = [pkmnType.get('type', {}).get('name') for pkmnType in data.get('types', [])]
-    pokedexID = data.get('id')
-    return baseExp, spriteURL, spriteShinyURL, baseStats, pokemonType, pokedexID
+    poke_info = {
+        'baseExp': data.get('base_experience'),
+        'spriteURL': data.get('sprites', {}).get('front_default'),
+        'spriteShinyURL': data.get('sprites', {}).get('front_shiny'),
+        'baseStats': {stat.get('stat', {}).get('name', '').upper() + ':': stat.get('base_stat') for stat in data.get('stats', [])},
+        'pokemonType': [pkmnType.get('type', {}).get('name') for pkmnType in data.get('types', [])],
+        'pokedexID': data.get('id')
+    }
+    return poke_info
 
-@app.route("/")
-def home():
-    return render_template('base.html')
+
 @app.route('/pokedex', methods=['GET', 'POST'])
-def pokedex():   
+def pokedex():
     form = Get_Poke_Info()
-    pkmn = form.pokemon_name.data
-    if request.method == 'POST':     
+    if request.method == 'POST' and form.validate_on_submit():
+        pkmn = form.pokemon_name.data
         url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
         response = requests.get(url)
         try:
             data = response.json()
-        #call helper function
-            #poke = get_poke_info(data)
-            print(data)
+#call helper function
+            poke = get_poke_info(data)
             return render_template('pokedex.html', pkmn=poke)
         except IndexError:
             return 'Invalid round or year'
     else:
         return render_template('pokedex.html')
 
+@app.route("/")
+def home():
+    return render_template('base.html')
 # PokeDex
 
 REGISTERED_USERS = {

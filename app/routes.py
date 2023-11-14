@@ -1,37 +1,50 @@
 from flask import request, render_template, redirect, url_for, flash
 import requests
 from app import app
-from app.forms import LoginForm, SignupForm
+from app.forms import LoginForm, SignupForm, Get_Poke_Info
+from app.models import db, User
 # Home
-@app.route("/")
+
+
+# put of poke_info in to a dict
+#
+#
+def get_poke_info(data):
+    poke_info = {
+        'baseExp': data.get('base_experience'),
+        'spriteURL': data.get('sprites', {}).get('front_default'),
+        'spriteShinyURL': data.get('sprites', {}).get('front_shiny'),
+        'baseStats': {stat.get('stat', {}).get('name', '').upper() + ':': stat.get('base_stat') for stat in data.get('stats', [])},
+        'pokemonType': [pkmnType.get('type', {}).get('name') for pkmnType in data.get('types', [])],
+        'pokedexID': data.get('id')
+    }
+    return poke_info
+
+
 @app.route('/pokedex', methods=['GET', 'POST'])
 def pokedex():
     
+    if request.method == 'POST':
         form = get_poke_info()
         pkmn = form.WhateverYouNamedTheFormVariable.data
         
-        if request.method == 'POST':
-            url = url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
-            response = requests.get(url)
+        
+        url = url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
+        response = requests.get(url)
         try:
             data = response.json()['base_experience']['StandingsTable']['StandingsLists'][0]['DriverStandings']
         #call helper function
-            poke_info = get_poke_info(data)
-            return render_template('pokedex.html', poke_info=poke_info)
+            all_drivers = get_driver_data(data)
+            return render_template('pokedex.html', all_drivers=all_drivers)
         except IndexError:
             return 'Invalid round or year'
         else:
         return render_template('pokedex.html')
 
+@app.route("/")
+def home():
+    return render_template('base.html')
 # PokeDex
-def get_poke_info(data):
-    baseExp = data.get('base_experience')
-    spriteURL = data.get('sprites', {}).get('front_default')
-    spriteShinyURL = data.get('sprites', {}).get('front_shiny')
-    baseStats = {stat.get('stat', {}).get('name', '').upper() + ':': stat.get('base_stat') for stat in data.get('stats', [])}
-    pokemonType = [pkmnType.get('type', {}).get('name') for pkmnType in data.get('types', [])]
-    pokedexID = data.get('id')
-    return baseExp, spriteURL, spriteShinyURL, baseStats, pokemonType, pokedexID
 
 REGISTERED_USERS = {
     'test@email.com': {

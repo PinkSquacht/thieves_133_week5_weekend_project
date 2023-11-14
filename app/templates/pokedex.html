@@ -17,6 +17,7 @@
     
     <button type="submit" class="btn btn-primary">Search</button>
  </form>
+ 
  <table class="table mx-auto">
     <thead>
       <tr>
@@ -27,7 +28,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for driver in all_drivers %}
+      {% for poke in pkmn %}
         <tr>
           <th scope="row">{{ driver['first_name'] + " " + driver['last_name'] }}</th>
           <td>{{ driver['team']}}</td>

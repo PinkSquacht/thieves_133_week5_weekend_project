@@ -7,21 +7,20 @@ from app.forms import LoginForm, SignupForm
 @app.route('/pokedex', methods=['GET', 'POST'])
 def pokedex():
     
-    if request.method == 'POST':
         form = get_poke_info()
         pkmn = form.WhateverYouNamedTheFormVariable.data
         
-        
-        url = url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
-        response = requests.get(url)
+        if request.method == 'POST':
+            url = url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
+            response = requests.get(url)
         try:
             data = response.json()['base_experience']['StandingsTable']['StandingsLists'][0]['DriverStandings']
         #call helper function
-            all_drivers = get_driver_data(data)
-            return render_template('pokedex.html', all_drivers=all_drivers)
+            poke_info = get_poke_info(data)
+            return render_template('pokedex.html', poke_info=poke_info)
         except IndexError:
             return 'Invalid round or year'
-    else:
+        else:
         return render_template('pokedex.html')
 
 # PokeDex

@@ -44,7 +44,6 @@ def pokedex():
 @app.route("/")
 def home():
     return render_template('base.html')
-# PokeDex
 
 REGISTERED_USERS = {
     'test@email.com': {

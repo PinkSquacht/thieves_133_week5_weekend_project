@@ -23,19 +23,16 @@ def get_poke_info(data):
 
 @app.route('/pokedex', methods=['GET', 'POST'])
 def pokedex():
-    
-    if request.method == 'POST':
-        form = get_poke_info()
-        pkmn = form.WhateverYouNamedTheFormVariable.data
-        
-        
-        url = url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
+    form = Get_Poke_Info()
+    if request.method == 'POST' and form.validate_on_submit():
+        pkmn = form.pokemon_name.data
+        url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
         response = requests.get(url)
         try:
-            data = response.json()['base_experience']['StandingsTable']['StandingsLists'][0]['DriverStandings']
-        #call helper function
-            all_drivers = get_driver_data(data)
-            return render_template('pokedex.html', all_drivers=all_drivers)
+            data = response.json()
+#call helper function
+            poke = get_poke_info(data)
+            return render_template('pokedex.html', pkmn=poke)
         except IndexError:
             return 'Invalid Pokemon'
     else:

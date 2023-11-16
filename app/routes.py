@@ -84,6 +84,5 @@ def signup():
         return f'Thank you for signing up {full_name}'
     else:
         return render_template('signup.html', form=form)
-# PokeDex
 
 

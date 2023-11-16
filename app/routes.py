@@ -37,9 +37,15 @@ def pokedex():
             all_drivers = get_driver_data(data)
             return render_template('pokedex.html', all_drivers=all_drivers)
         except IndexError:
+<<<<<<< HEAD
+            return 'Invalid Pokemon'
+    else:
+        return render_template('pokedex.html', form=form)
+=======
             return 'Invalid round or year'
         else:
         return render_template('pokedex.html')
+>>>>>>> refs/remotes/origin/main
 
 @app.route("/")
 def home():

@@ -18,4 +18,9 @@ class User(db.Model, UserMixin):
         self.last_name = last_name
         self.email = email
         self.password = generate_password_hash(password)
-        
+
+
+   # create my pokemon table
+   # PK be the name of the pokemon
+    # class Pokemon(db.Model):
+    

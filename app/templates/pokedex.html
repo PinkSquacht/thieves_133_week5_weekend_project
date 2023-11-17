@@ -9,17 +9,19 @@
     {% include './includes/nav.html' %}
 
     <form method="POST" class="w-25 mx-auto shadow p-3 mb-5 mt-5 bg-body-tertiary rounded">
+        {{ form.hidden_tag() }}
         <div class="mb-3">
+            <label class="form-label">Enter Your Pokemon Name Or Number </label>
             {{ form.pokemon_name(class="form-control", id="pokemon_name") }}
         </div>
-
-        <button type="submit" class="btn btn-primary">Search</button>
+        {{ form.submit_btn(class="btn btn-primary") }}
     </form>
 
     {% if pkmn %}
-        <table class="table mx-auto">
+        <table class="table w-25 mx-auto shadow p-3 mb-5 mt-5 bg-body-tertiary rounded">
             <thead>
                 <tr>
+                    <th scope="col">Name</th>
                     <th scope="col">Base Experience</th>
                     <th scope="col">Sprite URL </th>
                     <th scope="col">Shiny Sprite URL</th>
@@ -29,16 +31,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for poke in pkmn %}
+               
                     <tr>
-                        <th scope="row">{{ poke['baseExp'] }}</th>
-                        <td>{{ poke['spriteURL'] }}</td>
-                        <td>{{ poke['spriteShinyURL'] }}</td>
-                        <td>{{ poke['baseStats'] }}</td>
-                        <td>{{ poke['pokemonType'] }}</td>
-                        <td>{{ poke['pokedexID'] }}</td>
+                        <td>{{ pkmn['name'] }}</td>
+                        <th scope="row">{{ pkmn['baseExp'] }}</th>
+                        <td>{{ pkmn['spriteURL'] }}</td>
+                        <td>{{ pkmn['spriteShinyURL'] }}</td>
+                        <td>{{ pkmn['baseStats'] }}</td>
+                        <td>{{ pkmn['pokemonType'] }}</td>
+                        <td>{{ pkmn['pokedexID'] }}</td>
                     </tr>
-                {% endfor %}
+               
             </tbody>
         </table>
     {% endif %}

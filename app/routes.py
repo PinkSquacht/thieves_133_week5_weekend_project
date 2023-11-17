@@ -11,6 +11,7 @@ from app.models import db, User
 #
 def get_poke_info(data):
     poke_info = {
+        'name': data['forms'][0]['name'],
         'baseExp': data.get('base_experience'),
         'spriteURL': data.get('sprites', {}).get('front_default'),
         'spriteShinyURL': data.get('sprites', {}).get('front_shiny'),
@@ -26,13 +27,18 @@ def pokedex():
     form = Get_Poke_Info()
     if request.method == 'POST' and form.validate_on_submit():
         pkmn = form.pokemon_name.data
-        url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
-        response = requests.get(url)
+        
+        #poke = query 
+     
+        # poke = check my database to check if poke got a match in the database
+        # else run code below
         try:
+            url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
+            response = requests.get(url)
             data = response.json()
 #call helper function
             poke = get_poke_info(data)
-            return render_template('pokedex.html', pkmn=poke)
+            return render_template('pokedex.html', pkmn=poke, form=form)
         except IndexError:
             return 'Invalid Pokemon'
     else:
@@ -62,6 +68,7 @@ def login():
         else:
             return 'Invaild email or passord'
     else:
+        flash('Please Login', 'info')
         return render_template('login.html', form=form)
     
 
@@ -78,7 +85,8 @@ def signup():
             'name': full_name,
             'password': password
         }
-        return f'Thank you for signing up {full_name}'
+        #flash(f'Thank you for signing up {full_name}', 'success')
+        return redirect(url_for('login'))
     else:
         return render_template('signup.html', form=form)
 

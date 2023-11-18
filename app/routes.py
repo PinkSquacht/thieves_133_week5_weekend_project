@@ -2,8 +2,8 @@ from flask import request, render_template, redirect, url_for, flash
 import requests
 from app import app
 from app.forms import LoginForm, SignupForm, Get_Poke_Info
-from app.models import db, User
-# Home
+from app.models import db, User, Pokemon
+from flask_login import current_user, login_user, logout_user, login_required
 
 
 # put of poke_info in to a dict
@@ -22,25 +22,37 @@ def get_poke_info(data):
     return poke_info
 
 
+# Pokedex route to get Pokemon info from the API and display it to the user in a template 
 @app.route('/pokedex', methods=['GET', 'POST'])
 def pokedex():
     form = Get_Poke_Info()
     if request.method == 'POST' and form.validate_on_submit():
         pkmn = form.pokemon_name.data
-        
-        #poke = query 
-     
-        # poke = check my database to check if poke got a match in the database
-        # else run code below
-        try:
-            url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
-            response = requests.get(url)
-            data = response.json()
-#call helper function
-            poke = get_poke_info(data)
-            return render_template('pokedex.html', pkmn=poke, form=form)
-        except IndexError:
-            return 'Invalid Pokemon'
+
+        # Query the database to check if the Pokemon is in the user's team
+        user = User.query.get(current_user.id)
+        pokemon = next((p for p in user.pokemons if p.name == pkmn), None)
+
+        if pokemon:
+            # The Pokemon is in the user's team
+            poke = pokemon
+        else:
+            # The Pokemon is not in the user's team, fetch data from the API
+            try:
+                url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
+                response = requests.get(url)
+                data = response.json()
+                poke = get_poke_info(data)
+
+                # Create a new Pokemon instance and add it to the user's team
+                new_pokemon = Pokemon(name=poke['name'], baseExp=poke['base_experience'], spriteURL=poke['sprites']['front_default'], spriteShinyURL=poke['sprites']['front_shiny'], baseStats=poke['stats'], pokemonType=poke['types'], pokedexID=poke['id'])
+                user.pokemons.append(new_pokemon)
+                db.session.commit()
+
+            except IndexError:
+                return 'Invalid Pokemon'
+
+        return render_template('pokedex.html', pkmn=poke, form=form)
     else:
         return render_template('pokedex.html', form=form)
 

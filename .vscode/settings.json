@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "PostgreSQL",
+            "name": "Pokemon",
+            "connectString": "postgres://jalnyqrw:f_9Ayaq4iQcdzkEeXWmzS882ZBy6wHCn@bubble.db.elephantsql.com/jalnyqrw"
+        }
+    ]
+}

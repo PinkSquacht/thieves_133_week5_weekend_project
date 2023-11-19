@@ -99,9 +99,9 @@ REGISTERED_USERS = {
 }
 # Battle Route
 @app.route('/battle', methods=['GET', 'POST'])
-@login_required
 def battle():
     form = BattleForm()  # A form for entering the other user's username or email
+    users = User.query.all()  # Query all users
     if request.method == 'POST' and form.validate_on_submit():
         opponent_email = form.email.data
         opponent = User.query.filter_by(email=opponent_email).first()
@@ -109,10 +109,15 @@ def battle():
             # Get the teams of the current user and the opponent
             current_user_team = current_user.pokemons
             opponent_team = opponent.pokemons
-            return render_template('battle.html', current_user_team=current_user_team, opponent_team=opponent_team, form=form)
+            return render_template('battle.html', current_user_team=current_user_team, opponent_team=opponent_team, form=form, users=users)
         else:
             flash('User not found', 'error')
-    return render_template('battle.html', form=form)
+    return render_template('battle.html', form=form, users=users)
+
+@app.route('/attack/<int:user_id>', methods=['POST'])
+def attack(user_id):
+    # Implement your attack logic here
+    return redirect(url_for('battle'))
 # Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():

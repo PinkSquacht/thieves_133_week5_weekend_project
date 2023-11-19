@@ -107,8 +107,8 @@ def battle():
         opponent = User.query.filter_by(email=opponent_email).first()
         if opponent:
             # Get the teams of the current user and the opponent
-            current_user_team = current_user.pokemons
-            opponent_team = opponent.pokemons
+            current_user_team = current_user.pokemons.all()  # Query all pokemons of the current user
+            opponent_team = opponent.pokemons.all()  # Query all pokemons of the opponent
             return render_template('battle.html', current_user_team=current_user_team, opponent_team=opponent_team, form=form, users=users)
         else:
             flash('User not found', 'error')
@@ -117,6 +117,19 @@ def battle():
 @app.route('/attack/<int:user_id>', methods=['POST'])
 def attack(user_id):
     # Implement your attack logic here
+    # i want to comare the first pokemon in the current user's team to the first pokemon in the opponent's team
+    # if the current user's pokemon has a higher attack than the opponent's pokemon, the current user wins
+    if current_user.pokemons[0].attack > User.query.get(user_id).pokemons[0].attack:
+        flash('You win!', 'success')
+    elif current_user.pokemons[0].attack < User.query.get(user_id).pokemons[0].attack:
+        flash('You lose!', 'error')
+    else:
+        flash('Draw!', 'info')
+        
+    # if the opponent's pokemon has a higher attack than the current user's pokemon, the opponent wins
+    # if the current user's pokemon has the same attack as the opponent's pokemon, the battle is a draw
+    # if the current user wins, the opponent's pokemon is removed from the opponent's team
+    
     return redirect(url_for('battle'))
 # Login
 @app.route('/login', methods=['GET', 'POST'])

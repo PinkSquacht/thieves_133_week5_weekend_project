@@ -11,11 +11,29 @@
             <a class="nav-link" href="{{ url_for('pokedex')}}">PokeDex</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login')}}">Login Page</a>
+            <a class="nav-link" href="{{ url_for('login')}}">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('signup')}}">Signup Page</a>
+            <a class="nav-link" href="{{ url_for('signup')}}">Signup</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('team')}}">Team Viewer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('battle')}}">Trainer Battle</a>
+             <!-- Check if a user is logged in -->
+             {% if current_user.is_authenticated %}
+             <!-- If a user is logged in, display a "Logout" button -->
+             <li class="nav-item logout-btn">
+               <a class="nav-link" href="{{ url_for('logout')}}">Logout</a>
+             </li>
+           {% else %}
+             <!-- If a user is not logged in, display a "Login" button -->
+             <li class="nav-item logout-btn">
+               <a class="nav-link" href="{{ url_for('login')}}">Login</a>
+             </li>
+           {% endif %}
+          
         </ul>        
       </div>
     </div>

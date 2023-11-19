@@ -3,12 +3,12 @@
     font-family: 'Quicksand', sans-serif;
 }
 body {
-height: 100%;
+height: 100vh;
 color: #1f1f1f;
 background: #348F50;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to bottom, #56B4D3, #348F50);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to bottom, #56B4D3, #348F50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background-attachment: fixed;
+
 }
 
 img {
@@ -17,38 +17,14 @@ img {
     height: 118px;
     margin-top: 20px;
 }
-
 .navbar-custom {
     background: #CAC531;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #F3F9A7, #CAC531);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #F3F9A7, #CAC531); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    color: #1f1f1f;
     
     
 }
-.pokemon-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    border: 2px solid #1f1f1f; /* Add a border */
-    border-radius: 15px; /* Round the corners */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25); /* Add a shadow for depth */
-    background: #ffffff; /* Add a white background */
-    margin-bottom: 20px;
-    width: 50%; /* Set the width of the card */
-    max-width: 600px; /* Set the maximum width of the card */
-    margin: 0 auto; /* Center the card */
-}
-
-.pokemon-img {
-    margin-right: 20px;
-}
-
-.pokemon-info {
-    text-align: left;
-}
-    
 .nav-img {
     width: 25px;
     height: auto;
@@ -66,37 +42,8 @@ img {
     border: 1px solid black;
     transition: .5s;
 }
-.logout-btn {
-    display: block;
-    margin: 0 auto;
-    background-color: rgb(184, 117, 117);
-    color: #1f1f1f;
-    border: 1px solid black;
-    border-radius: 10%;
-    transition: .5s;
-}
 .login-btn:hover {
     color: white;
     background-color: rgb(109, 109, 182);
    transform: scale(1.2);
-}
-.team-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-.team-container {
-    display: flex;
-    justify-content: space-between;
-    width: 80%; /* Adjust as needed */
-}
-
-.team-container > div {
-    width: 45%; /* Adjust as needed */
-}
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }

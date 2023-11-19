@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Battle{% endblock %}
+{% block styles %} 
+   <link rel="stylesheet" href="../static/styles/login.css"> 
+{% endblock %} 
+
+{% block content %}
+    {% include './includes/nav.html' %}
+
+    <div class="form-container">
+        <h1>Battle</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.email.label }} {{ form.email() }}
+            {{ form.submit() }}
+        </form>
+    </div>
+    
+    <div class="team-wrapper">
+        <div class="team-container">
+            <div>
+                <h2>Your Team</h2>
+                <ul>
+                    {% for pokemon in current_user_team %}
+                        <li>
+                            <img src="{{ pokemon.spriteURL }}" alt="{{ pokemon.name }}">
+                            <h3>{{ pokemon.name }}</h3>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <h2>Opponent's Team</h2>
+                <ul>
+                    {% for pokemon in opponent_team %}
+                        <li>
+                            <img src="{{ pokemon.spriteURL }}" alt="{{ pokemon.name }}">
+                            <h3>{{ pokemon.name }}</h3>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

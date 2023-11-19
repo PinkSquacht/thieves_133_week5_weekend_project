@@ -31,16 +31,27 @@ class Pokemon(db.Model):
     baseExp = db.Column(db.String, nullable=False)
     spriteURL = db.Column(db.String, nullable=False)
     spriteShinyURL = db.Column(db.String, nullable=False)
-    baseStats = db.Column(db.String, nullable=False)
+    hp = db.Column(db.String, nullable=False)
+    attack = db.Column(db.String, nullable=False)
+    defense = db.Column(db.String, nullable=False)
+    speacial_Attack = db.Column(db.String, nullable=True)
+    specialDefense = db.Column(db.String, nullable=True)
+    speed =  db.Column(db.String, nullable=False)
     pokemonType = db.Column(db.String, nullable=False)
     pokedexID = db.Column(db.String, nullable=False)
     
 
-    def __init__(self, name, baseExp, spriteURL, spriteShinyURL, baseStats, pokemonType, pokedexID):
+    def __init__(self, name, baseExp, spriteURL, spriteShinyURL, pokemonType, pokedexID, hp, attack, defense, specialAttack, specialDefense, speed):
         self.name = name
         self.baseExp = baseExp
         self.spriteURL = spriteURL
         self.spriteShinyURL = spriteShinyURL
-        self.baseStats = baseStats
         self.pokemonType = pokemonType
         self.pokedexID = pokedexID
+        self.hp = hp
+        self.attack = attack     
+        self.defense = defense
+        self.special_Attack = specialAttack
+        self.specialDefense = specialDefense
+        self.speed = speed
+        

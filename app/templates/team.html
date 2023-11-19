@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}PokeDex{% endblock %}
+{% block styles %} 
+   <link rel="stylesheet" href="../static/styles/login.css"> 
+{% endblock %} 
+
+{% block content %}
+    {% include './includes/nav.html' %}
+    <h1 class="text-center">{{ current_user.first_name }}'s Pokemon Team</h1>
+
+    <ul class="list">
+        <ul class="list">
+            {% for pokemon in current_user.pokemons %}
+                <li class="mb-3 mx-auto text-center">
+                    <div class="pokemon-card">
+                        <img class="pokemon-img" src="{{ pokemon.spriteURL }}" alt="{{ pokemon.name }}">
+                        <div class="pokemon-info">
+                            <h2>{{ pokemon.name }}</h2>
+                            <p>Base Experience: {{ pokemon.baseExp }}</p>
+                            <p>HP: {{ pokemon.hp }}</p>
+                            <p>Attack: {{ pokemon.attack }}</p>
+                            <p>Defense: {{ pokemon.defense }}</p>
+                            <p>Special Attack: {{ pokemon.specialAttack }}</p>
+                            <p>Special Defense: {{ pokemon.specialDefense }}</p>
+                            <p>Speed: {{ pokemon.speed }}</p>
+                            <p>Type: {{ pokemon.pokemonType }}</p>
+                            <p>Pokedex ID: {{ pokemon.pokedexID }}</p>
+                        </div>
+                    </div>
+                    <!-- Add a form with a "Remove" button -->
+                    <form class="mb-3 mx-auto text-center" action="{{ url_for('remove_pokemon', pokemon_name=pokemon.name) }}" method="post">
+                        <input class="text-center" type="submit" value="Remove">
+                    </form>
+
+
+            
+        {% endfor %}
+    </ul>
+{% endblock %}

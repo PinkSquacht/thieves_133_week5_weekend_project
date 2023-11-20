@@ -114,6 +114,12 @@ def battle():
             flash('User not found', 'error')
     return render_template('battle.html', form=form, users=users)
 
+@app.route('/staging/<int:user_id>', methods=['GET', 'POST'])
+def staging(user_id):
+    opponent = User.query.get(user_id)
+    print(opponent)
+    return render_template('staging.html', opponent=opponent)
+
 @app.route('/attack/<int:user_id>', methods=['POST'])
 def attack(user_id):
     # Implement your attack logic here
@@ -130,7 +136,7 @@ def attack(user_id):
     # if the current user's pokemon has the same attack as the opponent's pokemon, the battle is a draw
     # if the current user wins, the opponent's pokemon is removed from the opponent's team
     
-    return redirect(url_for('battle'))
+    return redirect(url_for('staging'))
 # Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
